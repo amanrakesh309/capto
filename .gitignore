@@ -1,0 +1,85 @@
+# =============================================================================
+# Capto — .gitignore
+# =============================================================================
+
+# --- Rust & Cargo Build Artifacts ---
+# Compiled binaries, object files, incremental caches, and dependencies
+/target/
+**/target/
+**/*.rs.bk
+*.pdb
+
+# --- Application Runtime & User Configuration ---
+# Runtime logs, backups, and local settings (stored in XDG paths or repo root during dev)
+*.log
+*.log.*
+capto.log
+continuous-screenshot.log
+settings.json
+settings.json.bak
+
+# --- Temporary Files & Test Captures ---
+# Temporary images or debug dumps (preserves docs/screenshots/ and src-tauri/icons/)
+test_*.png
+temp_*.png
+*.tmp
+scratch/
+
+# --- Python Helper Scripts Cache ---
+# Bytecode and environments for scripts/generate-icons.py and scripts/generate-screenshots.py
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# --- Operating System Files ---
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.fuse_hidden*
+.nfs*
+
+# --- Editors & IDEs ---
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains (CLion, IntelliJ, Fleet)
+.idea/
+*.iml
+
+# Vim / Emacs
+*.swp
+*.swo
+*.swn
+.#*
+#*#
+
+# --- Tauri Packaging Artifacts ---
+# Release bundles / installers if output locally outside /target/
+*.deb
+*.rpm
+*.AppImage
+*.dmg
+*.msi
+*.exe

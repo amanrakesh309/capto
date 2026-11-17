@@ -1,0 +1,22 @@
+[package]
+name = "capture-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Capture backends and screenshot storage for Continuous Screenshot"
+
+[dependencies]
+x11rb = { version = "0.13", default-features = false, features = ["composite", "randr"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+log = "0.4"
+
+[dev-dependencies]
+tempfile = "3"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+# `xtest` drives the interactive overlay tests with synthetic input.
+x11rb = { version = "0.13", default-features = false, features = ["composite", "randr", "xtest"] }

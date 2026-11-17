@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Capto",
+  "mainBinaryName": "capto",
+  "version": "0.1.0",
+  "identifier": "io.github.capto",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Capto",
+        "width": 760,
+        "height": 860,
+        "minWidth": 600,
+        "minHeight": 520,
+        "resizable": true,
+        "center": true,
+        "visible": false
+      },
+      {
+        "label": "toast",
+        "url": "toast.html",
+        "title": "Capto",
+        "width": 440,
+        "height": 108,
+        "resizable": false,
+        "decorations": false,
+        "transparent": true,
+        "shadow": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "focus": false,
+        "focusable": false,
+        "visible": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "appimage"],
+    "category": "Utility",
+    "shortDescription": "Lightweight continuous screenshot and snip tool for Linux",
+    "longDescription": "Capto lives in the tray and captures screenshots on demand via global shortcuts or tray triggers. Features support for immediate area snipping, remembered fixed regions, full screen, and pinned application windows even while another app is focused.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.png"
+    ],
+    "linux": {
+      "deb": {
+        "section": "utils"
+      }
+    }
+  }
+}

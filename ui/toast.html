@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Capto</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #282a36;
+        --card-bg: #343746;
+        --line: #44475a;
+        --line-strong: #6272a4;
+        --text: #f8f8f2;
+        --muted: #6272a4;
+        --green: #50fa7b;
+        --purple: #bd93f9;
+        --pink: #ff79c6;
+        --red: #ff5555;
+        font-family: "Inter", "Segoe UI", "Ubuntu", system-ui, -apple-system, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: transparent;
+        overflow: hidden;
+        user-select: none;
+        cursor: default;
+      }
+
+      #card {
+        position: absolute;
+        inset: 6px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 13px 16px;
+        border-radius: 15px;
+        background: linear-gradient(180deg, rgba(52, 55, 70, 0.98), rgba(40, 42, 54, 0.98));
+        border: 1px solid var(--line);
+        box-shadow: 0 16px 38px rgba(0, 0, 0, 0.55);
+        color: var(--text);
+        opacity: 0;
+        transform: translateY(7px) scale(0.99);
+        transition:
+          opacity 150ms ease,
+          transform 170ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      #card.show {
+        opacity: 1;
+        transform: none;
+      }
+
+      #icon {
+        flex: 0 0 32px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      #card.success #icon {
+        color: var(--green);
+        background: rgba(80, 250, 123, 0.16);
+        border: 1px solid rgba(80, 250, 123, 0.38);
+      }
+
+      #card.error #icon {
+        color: var(--red);
+        background: rgba(255, 85, 85, 0.16);
+        border: 1px solid rgba(255, 85, 85, 0.38);
+      }
+
+      #card.info #icon {
+        color: var(--purple);
+        background: rgba(189, 147, 249, 0.16);
+        border: 1px solid rgba(189, 147, 249, 0.38);
+      }
+
+      #card.success {
+        border-color: rgba(80, 250, 123, 0.4);
+      }
+
+      #card.error {
+        border-color: rgba(255, 85, 85, 0.45);
+      }
+
+      #card.info {
+        border-color: rgba(189, 147, 249, 0.4);
+      }
+
+      .text {
+        min-width: 0;
+        flex: 1 1 auto;
+      }
+
+      .title {
+        font-size: 13px;
+        font-weight: 650;
+        letter-spacing: 0.1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .message {
+        margin-top: 1px;
+        font-size: 12px;
+        color: #f8f8f2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .detail {
+        margin-top: 2px;
+        font-size: 10.5px;
+        color: var(--muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card" class="info">
+      <div id="icon">i</div>
+      <div class="text">
+        <div id="title" class="title">Continuous Screenshot</div>
+        <div id="message" class="message"></div>
+        <div id="detail" class="detail" hidden></div>
+      </div>
+    </div>
+    <script src="toast.js"></script>
+  </body>
+</html>

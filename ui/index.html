@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Capto</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="offline" class="offline" hidden>
+      This page must be opened by the Capto application.
+    </div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+          <i></i>
+        </div>
+        <div>
+          <h1>Capto</h1>
+          <p id="mode-subtitle">Continuous & Snip Screenshot Tool</p>
+        </div>
+      </div>
+      <div id="status-pill" class="pill">Ready</div>
+    </header>
+
+    <main id="content">
+      <div id="banners" class="banners" aria-live="polite"></div>
+
+      <!-- Main Capture & Mode Card -->
+      <section class="card target-card">
+        <div class="card-head">
+          <div>
+            <h2>Capture</h2>
+            <p id="target-summary" class="target-title">Loading target…</p>
+          </div>
+          <span id="mode-badge" class="badge">—</span>
+        </div>
+        
+        <div id="target-problem" class="inline-warning" hidden></div>
+
+        <!-- Primary Trigger Actions -->
+        <div class="actions primary-actions">
+          <button id="capture-now" class="btn primary">
+            <span class="kbd-dot"></span> Capture now
+          </button>
+          <button id="snip-now" class="btn accent">
+            <span class="snip-icon">✂</span> Snip area
+          </button>
+          <span id="contextual-actions" class="contextual-actions">
+            <button id="select-region" class="btn tiny" hidden>Select region…</button>
+            <button id="select-window" class="btn tiny" hidden>Pin window…</button>
+            <button id="choose-window" class="btn tiny ghost" hidden>Pick from list…</button>
+          </span>
+        </div>
+
+        <!-- Mode Grid Selector -->
+        <div class="section-label">Capture Mode</div>
+        <div id="modes" class="mode-grid" role="radiogroup" aria-label="Capture mode">
+          <label class="mode-chip" data-mode="select_area">
+            <input type="radio" name="mode" value="select_area" />
+            <span class="chip-content">
+              <strong>✂ Snip Area</strong>
+              <span class="chip-desc">Drag to snip on capture</span>
+            </span>
+          </label>
+          <label class="mode-chip" data-mode="region">
+            <input type="radio" name="mode" value="region" />
+            <span class="chip-content">
+              <strong>⛶ Fixed Region</strong>
+              <span class="chip-desc" id="region-detail">Remembered area</span>
+            </span>
+          </label>
+          <label class="mode-chip" data-mode="full_screen">
+            <input type="radio" name="mode" value="full_screen" />
+            <span class="chip-content">
+              <strong>🖥 Full Screen</strong>
+              <span class="chip-desc">Entire desktop</span>
+            </span>
+          </label>
+          <label class="mode-chip" data-mode="pinned_window">
+            <input type="radio" name="mode" value="pinned_window" />
+            <span class="chip-content">
+              <strong>📌 Pinned Window</strong>
+              <span class="chip-desc" id="window-detail">Specific app</span>
+            </span>
+          </label>
+          <label class="mode-chip" data-mode="foreground_window">
+            <input type="radio" name="mode" value="foreground_window" />
+            <span class="chip-content">
+              <strong>🗔 Active Window</strong>
+              <span class="chip-desc">Focused app</span>
+            </span>
+          </label>
+        </div>
+
+        <!-- Last Capture Result -->
+        <div id="last-capture" class="last-capture" hidden>
+          <div class="last-icon" aria-hidden="true">✓</div>
+          <div class="last-body">
+            <div class="last-title" id="last-filename"></div>
+            <div class="muted small" id="last-meta"></div>
+          </div>
+          <button id="open-folder-inline" class="btn tiny ghost">Open folder</button>
+        </div>
+      </section>
+
+      <!-- Output Settings -->
+      <section class="card">
+        <div class="card-head">
+          <h2>Storage & Format</h2>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Save Folder</span>
+          <div class="row">
+            <input id="output-dir" type="text" spellcheck="false" autocomplete="off" />
+            <button id="browse" class="btn">Browse…</button>
+            <button id="open-folder" class="btn ghost">Open</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <span class="field-label">Format</span>
+            <div class="segmented" id="format">
+              <button type="button" data-format="png">PNG <em>lossless</em></button>
+              <button type="button" data-format="jpeg">JPEG <em>smaller</em></button>
+            </div>
+          </div>
+
+          <div class="field" id="quality-field" hidden>
+            <span class="field-label">
+              JPEG Quality <output id="quality-value">90</output>%
+            </span>
+            <input id="quality" type="range" min="1" max="100" step="1" value="90" />
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Filename Pattern</span>
+          <input id="pattern" type="text" spellcheck="false" autocomplete="off" />
+          <span class="muted small">
+            Preview: <span id="pattern-preview" class="mono"></span>
+          </span>
+          <span id="pattern-warning" class="inline-warning" hidden></span>
+        </div>
+      </section>
+
+      <!-- Shortcut & Preferences -->
+      <section class="card">
+        <div class="card-head">
+          <h2>Shortcut & Preferences</h2>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Global Shortcut</span>
+          <div class="row shortcut-row">
+            <div id="shortcut-display" class="shortcut mono">Not set</div>
+            <button id="record-shortcut" class="btn">Change…</button>
+            <button id="clear-shortcut" class="btn ghost">Disable</button>
+          </div>
+          <span id="shortcut-help" class="muted small">
+            Press a shortcut combination. The tray menu also works anytime.
+          </span>
+        </div>
+
+        <div class="switches-group">
+          <label class="switch-row">
+            <span>Start at login</span>
+            <input id="autostart" type="checkbox" class="switch" />
+          </label>
+          <label class="switch-row">
+            <span>Show capture notification</span>
+            <input id="show-toast" type="checkbox" class="switch" />
+          </label>
+        </div>
+      </section>
+
+      <!-- Collapsible System Info (Uncluttered) -->
+      <details class="card system-details">
+        <summary>System & Backend Info</summary>
+        <dl class="facts">
+          <div><dt>Backend</dt><dd id="fact-backend">—</dd></div>
+          <div><dt>Display server</dt><dd id="fact-display">—</dd></div>
+          <div><dt>Desktop size</dt><dd id="fact-screen">—</dd></div>
+          <div><dt>Settings file</dt><dd id="fact-config" class="mono">—</dd></div>
+        </dl>
+        <ul id="backend-notes" class="notes"></ul>
+      </details>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <span id="save-state" class="autosave-pill small" aria-live="polite">
+          <span class="autosave-dot"></span> <span id="save-state-text">Saved</span>
+        </span>
+      </div>
+      <div class="footer-right">
+        <span id="version" class="muted small"></span>
+        <button id="hide" class="btn ghost">Hide window</button>
+        <button id="quit" class="btn danger">Quit</button>
+      </div>
+    </footer>
+
+    <!-- Window list modal -->
+    <div id="window-modal" class="modal" hidden>
+      <div class="modal-backdrop" data-close="1"></div>
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="window-modal-title">
+        <div class="modal-head">
+          <h2 id="window-modal-title">Choose a window to pin</h2>
+          <button class="btn ghost tiny" data-close="1">Close</button>
+        </div>
+        <p class="muted small">
+          The window is captured even when behind another app.
+        </p>
+        <div id="window-list" class="window-list"></div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
